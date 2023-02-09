@@ -7,7 +7,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import NotFound from './pages/NotFound';
 import Home from './pages/Home';
 import Invest from './pages/Invest';
-
+import General from './pages/General';
+import Info from './pages/Info';
+import QnA from './pages/QnA';
+import NewWriting from './pages/NewWriting';
+import ProtectedRoute from './pages/ProtectedRoute'
 const router = createBrowserRouter([{
   path: '/',
   element: <App />,
@@ -17,7 +21,23 @@ const router = createBrowserRouter([{
     {
       path: '/invest',
       element: <Invest />
-    }
+    },
+    {
+      path: '/general',
+      element: <General />
+    }, {
+      path: '/info',
+      element: <Info />
+    }, {
+      path: '/qna',
+      element: <QnA />
+    }, {
+      path: '/writing/new',
+      element:
+        <ProtectedRoute requireAdmin>
+          <NewWriting />
+        </ProtectedRoute>
+    },
   ]
 }])
 
