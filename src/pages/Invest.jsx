@@ -13,69 +13,40 @@ const numList = {
   9: 450000,
 };
 
+const errorText = '올바른 값을 입력해주세요.';
+
+const Rapael = 1.25;
+const nonMonopoly = 2;
+
 export default function Invest() {
   const [invest, setInvest] = useState({});
-  const [price_mono, setPrice_mono] = useState();
-  const [price_non_Mono, setPrice_non_Mono] = useState();
-  const [count_mono, setCount_mono] = useState();
-  const [count_non_Mono, setCount_non_Mono] = useState();
-  const [countRaphael_mono, setRaphaelCount_mono] = useState();
-  const [countRaphael_non_Mono, setRaphaelCount_nonMono] = useState();
+  const [price, setPrice] = useState();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInvest((invest) => ({ ...invest, [name]: value }));
   };
 
+  const getMoney = (input) => {
+    const firstNumber = Math.floor(input / 1000);
+    const remainder = input - firstNumber * 1000;
+    return numList[firstNumber] + (firstNumber || 1) * 10 * remainder;
+  };
+
   const getRequestMoney = useCallback(() => {
-    if (!invest.target || !invest.current || invest.target - invest.current <= 0) return '올바른 값을 입력해주세요.';
-
-    const targetRound = Math.floor(invest.target / 1000) * 1000;
-    const targetMain = Number(targetRound / 1000);
-    const targetMinor = invest.target - targetRound;
-    const targetMoney = numList[targetMain] + (targetMain + 1) * 10 * targetMinor;
-
-    const currentRound = Math.floor(invest.current / 1000) * 1000;
-    const currentMain = Number(currentRound / 1000);
-    const currentMinor = invest.current - currentRound;
-    const currentMoney = numList[currentMain] + (currentMain + 1) * 10 * currentMinor;
-
-    return targetMoney - currentMoney;
+    return getMoney(invest.target) - getMoney(invest.current);
   }, [invest]);
 
-  const getCount = useCallback(
-    (req, mode) => {
-      const countList = {
-        독점: 10,
-        비독점: 5,
-        라파엘독점: 8,
-        라파엘비독점: 4,
-      };
-      const money = req / (invest.current * countList[mode]);
-      return `${parseInt(money)}번 ${Math.ceil((money % 1) * 20)}칸`;
-    },
-    [invest]
-  );
+  const getCount = (money) => getCountText(money / (invest.current * 10));
+  const getCountText = (money) => `${parseInt(money)}번 ${Math.ceil((money % 1) * 20)}칸`;
 
   useEffect(() => {
-    const req = getRequestMoney();
-
-    if (Number.isInteger(req)) {
-      setPrice_mono(req);
-      setPrice_non_Mono(req * 2);
-      setCount_mono(getCount(req, '독점'));
-      setCount_non_Mono(getCount(req, '비독점'));
-      setRaphaelCount_mono(getCount(req, '라파엘독점'));
-      setRaphaelCount_nonMono(getCount(req, '라파엘비독점'));
+    if (invest.target && invest.current) {
+      setPrice(getRequestMoney());
     } else {
-      setPrice_mono(req);
-      setPrice_non_Mono(req);
-      setCount_mono(req);
-      setCount_non_Mono(req);
-      setRaphaelCount_mono(req);
-      setRaphaelCount_nonMono(req);
+      setPrice(null);
     }
-  }, [invest, getCount, getRequestMoney]);
+  }, [invest, setPrice, getRequestMoney]);
 
   return (
     <div className='flex'>
@@ -87,17 +58,17 @@ export default function Invest() {
           <label htmlFor='current'>현재값</label>
           <input id='current' name='current' type='text' pattern='\d*' maxLength='4' value={invest.current ?? ''} onChange={handleChange} />
           <label>필요금액(독점)</label>
-          <input value={price_mono} disabled />
+          <input value={price || errorText} disabled />
           <label>필요금액(비독점)</label>
-          <input value={price_non_Mono} disabled />
+          <input value={price * nonMonopoly || errorText} disabled />
           <label>투자횟수(독점)</label>
-          <input value={count_mono} disabled />
+          <input value={(price && getCount(price)) || errorText} disabled />
           <label>투자횟수(비독점)</label>
-          <input value={count_non_Mono} disabled />
+          <input value={(price && getCount(price * nonMonopoly)) || errorText} disabled />
           <label>라파엘 군사투자(독점)</label>
-          <input value={countRaphael_mono} disabled />
+          <input value={(price && getCount(price * Rapael)) || errorText} disabled />
           <label>라파엘 군사투자(비독점)</label>
-          <input value={countRaphael_non_Mono} disabled />
+          <input value={(price && getCount(price * Rapael * nonMonopoly)) || errorText} disabled />
         </form>
       </article>
     </div>
