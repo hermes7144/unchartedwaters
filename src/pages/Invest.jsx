@@ -36,60 +36,71 @@ export default function Invest() {
     const currentMain = Number(currentRound / 1000);
     const currentMinor = invest.current - currentRound;
 
-    let targetMoney = numList[targetMain] + (targetMain + 1) * 10 * targetMinor;
-    let currentMoney = numList[currentMain] + (currentMain + 1) * 10 * currentMinor;
+    const targetMoney = numList[targetMain] + (targetMain + 1) * 10 * targetMinor;
+    const currentMoney = numList[currentMain] + (currentMain + 1) * 10 * currentMinor;
 
-    return isNaN(targetMoney - currentMoney) ? '' : targetMoney - currentMoney;
+    const reqMoney = targetMoney - currentMoney;
+
+    return reqMoney > 0 && invest.current > 0 ? reqMoney : '올바른 값을 입력해주세요.';
   }, [invest]);
 
   const getCount = useCallback(
-    (reqMoney, mode) => {
+    (req, mode) => {
       const countList = {
         독점: 10,
         비독점: 5,
         라파엘독점: 8,
         라파엘비독점: 4,
       };
-
-      const money = reqMoney / (invest.current * countList[mode]);
-
-      return `${parseInt(money)}번 ${Math.ceil((money % 1) * 20)} 칸`;
+      const money = req / (invest.current * countList[mode]);
+      return `${parseInt(money)}번 ${Math.ceil((money % 1) * 20)}칸`;
     },
     [invest]
   );
 
   useEffect(() => {
-    const reqMoney = getRequestMoney();
+    const req = getRequestMoney();
 
-    setPrice_mono(reqMoney);
-    setPrice_non_Mono(reqMoney * 2);
-    setCount_mono(getCount(reqMoney, '독점'));
-    setCount_non_Mono(getCount(reqMoney, '비독점'));
-    setRaphaelCount_mono(getCount(reqMoney, '라파엘독점'));
-    setRaphaelCount_nonMono(getCount(reqMoney, '라파엘비독점'));
+    if (Number.isInteger(req)) {
+      setPrice_mono(req);
+      setPrice_non_Mono(req * 2);
+      setCount_mono(getCount(req, '독점'));
+      setCount_non_Mono(getCount(req, '비독점'));
+      setRaphaelCount_mono(getCount(req, '라파엘독점'));
+      setRaphaelCount_nonMono(getCount(req, '라파엘비독점'));
+    } else {
+      setPrice_mono(req);
+      setPrice_non_Mono(req);
+      setCount_mono(req);
+      setCount_non_Mono(req);
+      setRaphaelCount_mono(req);
+      setRaphaelCount_nonMono(req);
+    }
   }, [invest, getCount, getRequestMoney]);
 
   return (
-    <section className='w-full '>
-      <h2 className='text-2xl font-bold my-4 text-center'>투자계산기</h2>
-      <form className='flex flex-col px-12'>
-        <span>목표값</span>
-        <input name='target' value={invest.target ?? ''} placeholder='목표값' maxLength={4} onChange={handleChange} />
-        <span>현재값</span>
-        <input name='current' value={invest.current ?? ''} placeholder='현재값' maxLength={4} onChange={handleChange} />
-        <span>필요금액(독점)</span>
-        <input value={price_mono} readOnly />
-        <span>필요금액(비독점)</span>
-        <input value={price_non_Mono} readOnly />
-        <span>투자횟수(독점)</span>
-        <input value={count_mono} readOnly />
-        <span>투자횟수(비독점)</span>
-        <input value={count_non_Mono} readOnly />
-        <span>라파엘 군사투자(독점)</span>
-        <input value={countRaphael_mono} readOnly />
-        <span>라파엘 군사투자(비독점)</span>
-        <input value={countRaphael_non_Mono} readOnly />
-      </form>
-    </section>
+    <div className='flex'>
+      <article className='w-full basis-1/2'>
+        <h2 className='text-2xl font-bold my-4 text-center'>Calculator</h2>
+        <form className='flex flex-col px-12'>
+          <label for='target'>목표값</label>
+          <input id='target' name='target' value={invest.target ?? ''} placeholder='목표값' maxLength={4} onChange={handleChange} />
+          <label for='current'>현재값</label>
+          <input id='current' name='current' value={invest.current ?? ''} placeholder='현재값' maxLength={4} onChange={handleChange} />
+          <label>필요금액(독점)</label>
+          <input value={price_mono} disabled />
+          <label>필요금액(비독점)</label>
+          <input value={price_non_Mono} disabled />
+          <label>투자횟수(독점)</label>
+          <input value={count_mono} disabled />
+          <label>투자횟수(비독점)</label>
+          <input value={count_non_Mono} disabled />
+          <label>라파엘 군사투자(독점)</label>
+          <input value={countRaphael_mono} disabled />
+          <label>라파엘 군사투자(비독점)</label>
+          <input value={countRaphael_non_Mono} disabled />
+        </form>
+      </article>
+    </div>
   );
 }
