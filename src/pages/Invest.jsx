@@ -28,7 +28,7 @@ export default function Invest() {
   };
 
   const getRequestMoney = useCallback(() => {
-    if (invest.target - invest.current <= 0 || !invest.target || !invest.current) return '올바른 값을 입력해주세요.';
+    if (!invest.target || !invest.current || invest.target - invest.current <= 0) return '올바른 값을 입력해주세요.';
 
     const targetRound = Math.floor(invest.target / 1000) * 1000;
     const targetMain = Number(targetRound / 1000);
