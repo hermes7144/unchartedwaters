@@ -49,9 +49,9 @@ export default function Invest() {
         <h2 className='text-2xl font-bold my-4 text-center'>Calculator</h2>
         <form className='flex flex-col px-12'>
           <label htmlFor='target'>목표값</label>
-          <input id='target' name='target' type='text' maxLength='4' value={invest.target} aria-label='target' onChange={handleChange} />
+          <input id='target' name='target' type='text' maxLength='4' value={invest.target || ''} aria-label='target' onChange={handleChange} />
           <label htmlFor='current'>현재값</label>
-          <input id='current' name='current' type='text' maxLength='4' value={invest.current} aria-label='current' onChange={handleChange} />
+          <input id='current' name='current' type='text' maxLength='4' value={invest.current || ''} aria-label='current' onChange={handleChange} />
           <label>필요금액(독점)</label>
           <input value={price || ''} aria-label='moneyMono' disabled />
           <label>필요금액(비독점)</label>
