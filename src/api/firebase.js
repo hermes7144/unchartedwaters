@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "firebase/auth";
-import { getDatabase, ref, get } from "firebase/database";
-
+import { getDatabase, ref, get, set, orderByChild } from "firebase/database";
+import { v4 as uuid } from 'uuid';
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -39,4 +39,46 @@ async function adminUser(user) {
         return { ...user, isAdmin }
       }
     }).catch(console.error)
+}
+
+
+
+export async function addNewCity(city, check) {
+  const id = uuid();
+  set(ref(database, `citys/${id}`), {
+    ...city,
+    new: check,
+    id
+  })
+}
+
+export async function getAreas() {
+  return get(ref(database, 'areas'), orderByChild('order'))
+    .then(snapshot => {
+      if (snapshot.exists())
+      {
+        return Object.values(snapshot.val());
+      }
+      return [];
+    })
+}
+
+export async function getCitys() {
+  return get(ref(database, 'citys'))
+    .then(snapshot => {
+      if (snapshot.exists())
+      {
+        return Object.values(snapshot.val());
+      }
+      return [];
+    })
+}
+
+export async function addNewItem(item) {
+  const id = uuid();
+  set(ref(database, `${item.category}/${id}`), {
+    name: item.name,
+    order: parseInt(item.order),
+    id
+  })
 }

@@ -16,10 +16,20 @@ export default function Navbar() {
         <Link to='/invest'>Invest</Link>
 
         <Link to='/general'>General</Link>
-        <Link to='/info'>Info</Link>
+        <Link to='/citys'>Citys</Link>
         <Link to='/qna'>QnA</Link>
         {user && user.isAdmin && (
           <Link to='/writing/new'>
+            <BsFillPencilFill />
+          </Link>
+        )}
+        {user && user.isAdmin && (
+          <Link to='/items/new'>
+            <BsFillPencilFill />
+          </Link>
+        )}
+        {user && user.isAdmin && (
+          <Link to='/products/new'>
             <BsFillPencilFill />
           </Link>
         )}
