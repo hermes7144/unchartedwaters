@@ -9,11 +9,9 @@ import Home from './pages/Home';
 import Invest from './pages/Invest';
 import General from './pages/General';
 import QnA from './pages/QnA';
-import NewWriting from './pages/NewWriting';
 import ProtectedRoute from './pages/ProtectedRoute'
 import Citys from './pages/Citys';
 import NewItem from './pages/NewItem';
-import NewProduct from './pages/NewProduct';
 const router = createBrowserRouter([{
   path: '/',
   element: <App />,
@@ -34,24 +32,12 @@ const router = createBrowserRouter([{
       path: '/qna',
       element: <QnA />
     }, {
-      path: '/writing/new',
-      element:
-        <ProtectedRoute requireAdmin>
-          <NewWriting />
-        </ProtectedRoute>
-    }, {
       path: '/items/new',
       element:
         <ProtectedRoute requireAdmin>
           <NewItem />
         </ProtectedRoute>
-    }, {
-      path: '/products/new',
-      element:
-        <ProtectedRoute requireAdmin>
-          <NewProduct />
-        </ProtectedRoute>
-    },
+    }
   ]
 }])
 
