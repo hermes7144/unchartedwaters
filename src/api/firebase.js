@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "firebase/auth";
-import { getDatabase, ref, get, set, orderByChild } from "firebase/database";
+import { getDatabase, ref, get, set, orderByChild, equalTo, query } from "firebase/database";
 import { v4 as uuid } from 'uuid';
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -53,7 +53,7 @@ export async function addNewCity(city, check) {
 }
 
 export async function getAreas() {
-  return get(ref(database, 'areas'), orderByChild('order'))
+  return get(ref(database, 'areas'))
     .then(snapshot => {
       if (snapshot.exists())
       {
@@ -73,6 +73,23 @@ export async function getCitys() {
       return [];
     })
 }
+
+
+
+
+export async function getCity(city) {
+  const temp = query(ref(database, 'citys'), orderByChild('city_nm'), equalTo(city));
+  return get(temp)
+    .then(snapshot => {
+      if (snapshot.exists())
+      {
+        return Object.values(snapshot.val());
+      }
+      return [];
+    })
+}
+
+console.log(getCity());
 
 export async function addNewItem(item) {
   const id = uuid();

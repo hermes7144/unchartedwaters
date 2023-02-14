@@ -19,11 +19,11 @@ export default function Citys() {
             </tr>
           </thead>
           <tbody>
-            {citys.map((city) => (
-              <tr key={city.id}>
-                <td>{city.area}</td>
-                <td>{city.culture}</td>
-                <td>{city.name}</td>
+            {citys.map((city, index) => (
+              <tr key={index}>
+                <td>{city.city_area}</td>
+                <td>{city.city_culture}</td>
+                <td>{city.city_nm}</td>
               </tr>
             ))}
           </tbody>
