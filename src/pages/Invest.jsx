@@ -1,4 +1,7 @@
+import { useQuery } from '@tanstack/react-query';
 import React, { useCallback, useEffect, useState } from 'react';
+import { getAreas, getCity, getCitys } from '../api/firebase';
+import CityInfo from '../components/CityInfo';
 
 const numList = {
   0: 0,
@@ -17,15 +20,23 @@ const Rapael = 1.25;
 const nonMonopoly = 2;
 
 export default function Invest() {
-  const [invest, setInvest] = useState({});
+  const [target, setTarget] = useState();
+  const [current, setCurrent] = useState();
   const [price, setPrice] = useState();
+  const { data: areas } = useQuery(['areas'], getAreas);
+  const { data: citys } = useQuery(['citys'], getCitys);
 
-  const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value.replace(/\D/g, '');
+  const [selectedAreas, setSelectedAreas] = useState();
+  const [selectedCitys, setSelectedCitys] = useState();
+  const [filteredcitys, setFilteredcitys] = useState(citys);
 
-    setInvest((invest) => ({ ...invest, [name]: value }));
+  const handleAreas = (e) => {
+    setSelectedAreas(e.target.value);
+    setSelectedCitys('');
+    setFilteredcitys(!e.target.value ? citys : citys.filter((city) => city.city_area === e.target.value));
   };
+
+  const handleCitys = (e) => setSelectedCitys(e.target.value);
 
   const getMoney = (input) => {
     const firstNumber = Math.floor(input / 1000);
@@ -34,24 +45,25 @@ export default function Invest() {
   };
 
   const getRequestMoney = useCallback(() => {
-    invest.target && invest.current ? setPrice(getMoney(invest.target) - getMoney(invest.current)) : setPrice(null);
-  }, [invest]);
+    target && current ? setPrice(getMoney(target) - getMoney(current)) : setPrice(null);
+  }, [target, current]);
 
-  const getCount = (money) => getCountText(money / (invest.current * 10));
+  const getCount = (money) => getCountText(money / (current * 10));
   const getCountText = (money) => `${parseInt(money)}번 ${Math.ceil((money % 1) * 20)}칸`;
 
   useEffect(() => {
     getRequestMoney();
   });
+
   return (
     <div className='flex'>
       <article className='w-full basis-1/2'>
         <h2 className='text-2xl font-bold my-4 text-center'>Calculator</h2>
         <form className='flex flex-col px-12'>
           <label htmlFor='target'>목표값</label>
-          <input id='target' name='target' type='text' maxLength='4' value={invest.target || ''} aria-label='target' onChange={handleChange} />
+          <input id='target' name='target' type='text' maxLength='4' value={target || ''} aria-label='target' onChange={(e) => setTarget(e.target.value)} />
           <label htmlFor='current'>현재값</label>
-          <input id='current' name='current' type='text' maxLength='4' value={invest.current || ''} aria-label='current' onChange={handleChange} />
+          <input id='current' name='current' type='text' maxLength='4' value={current || ''} aria-label='current' onChange={(e) => setCurrent(e.target.value)} />
           <label>필요금액(독점)</label>
           <input value={price || ''} aria-label='moneyMono' disabled />
           <label>필요금액(비독점)</label>
@@ -64,6 +76,27 @@ export default function Invest() {
           <input value={(price && getCount(price * Rapael)) || ''} aria-label='rapaelMono' disabled />
           <label>라파엘 군사투자(비독점)</label>
           <input value={(price && getCount(price * Rapael * nonMonopoly)) || ''} aria-label='rapaelNonMono' disabled />
+        </form>
+      </article>
+
+      <article className='w-full basis-1/2'>
+        <h2 className='text-2xl font-bold my-4 text-center'>select</h2>
+        <form className='flex flex-col px-12'>
+          <label className=' font-bold' htmlFor='areas'>
+            해역
+          </label>
+          <select id='areas' className='p-2 m-4 flex-1 border-2 border-dashed border-brand outline-none' onChange={handleAreas} value={selectedAreas}>
+            <option value=''>전체</option>
+            {areas && areas.map((area, index) => <option key={index}>{area.area_nm}</option>)}
+          </select>
+          <label className=' font-bold' htmlFor='areas'>
+            도시
+          </label>
+          <select id='areas' className='p-2 m-4 flex-1 border-2 border-dashed border-brand outline-none' onChange={handleCitys} value={selectedCitys}>
+            <option value=''>전체</option>
+            {filteredcitys && filteredcitys.map((city, index) => <option key={index}>{city.city_nm}</option>)}
+          </select>
+          <CityInfo city_nm={selectedCitys} />
         </form>
       </article>
     </div>

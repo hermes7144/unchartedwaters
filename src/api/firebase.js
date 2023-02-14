@@ -74,11 +74,9 @@ export async function getCitys() {
     })
 }
 
-
-
-
-export async function getCity(city) {
-  const temp = query(ref(database, 'citys'), orderByChild('city_nm'), equalTo(city));
+export async function getGoods(city) {
+  // console.log(city)
+  const temp = query(ref(database, 'goods'), orderByChild('goods_city'), equalTo(city));
   return get(temp)
     .then(snapshot => {
       if (snapshot.exists())
@@ -89,7 +87,6 @@ export async function getCity(city) {
     })
 }
 
-console.log(getCity());
 
 export async function addNewItem(item) {
   const id = uuid();
