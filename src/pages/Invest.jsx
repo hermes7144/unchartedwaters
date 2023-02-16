@@ -1,7 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
 import React, { useCallback, useEffect, useState } from 'react';
-import { getAreas, getCity, getCitys } from '../api/firebase';
-import CityInfo from '../components/CityInfo';
+import CityInvest from '../components/CityInvest';
 
 const numList = {
   0: 0,
@@ -23,20 +21,6 @@ export default function Invest() {
   const [target, setTarget] = useState();
   const [current, setCurrent] = useState();
   const [price, setPrice] = useState();
-  const { data: areas } = useQuery(['areas'], getAreas);
-  const { data: citys } = useQuery(['citys'], getCitys);
-
-  const [selectedAreas, setSelectedAreas] = useState();
-  const [selectedCitys, setSelectedCitys] = useState();
-  const [filteredcitys, setFilteredcitys] = useState(citys);
-
-  const handleAreas = (e) => {
-    setSelectedAreas(e.target.value);
-    setSelectedCitys('');
-    setFilteredcitys(!e.target.value ? citys : citys.filter((city) => city.city_area === e.target.value));
-  };
-
-  const handleCitys = (e) => setSelectedCitys(e.target.value);
 
   const getMoney = (input) => {
     const firstNumber = Math.floor(input / 1000);
@@ -79,26 +63,7 @@ export default function Invest() {
         </form>
       </article>
 
-      <article className='w-full basis-1/2'>
-        <h2 className='text-2xl font-bold my-4 text-center'>select</h2>
-        <form className='flex flex-col px-12'>
-          <label className=' font-bold' htmlFor='areas'>
-            해역
-          </label>
-          <select id='areas' className='p-2 m-4 flex-1 border-2 border-dashed border-brand outline-none' onChange={handleAreas} value={selectedAreas}>
-            <option value=''>전체</option>
-            {areas && areas.map((area, index) => <option key={index}>{area.area_nm}</option>)}
-          </select>
-          <label className=' font-bold' htmlFor='areas'>
-            도시
-          </label>
-          <select id='areas' className='p-2 m-4 flex-1 border-2 border-dashed border-brand outline-none' onChange={handleCitys} value={selectedCitys}>
-            <option value=''>전체</option>
-            {filteredcitys && filteredcitys.map((city, index) => <option key={index}>{city.city_nm}</option>)}
-          </select>
-          <CityInfo city_nm={selectedCitys} />
-        </form>
-      </article>
+      <CityInvest target={target} current={current} />
     </div>
   );
 }

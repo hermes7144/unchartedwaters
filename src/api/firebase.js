@@ -41,17 +41,6 @@ async function adminUser(user) {
     }).catch(console.error)
 }
 
-
-
-export async function addNewCity(city, check) {
-  const id = uuid();
-  set(ref(database, `citys/${id}`), {
-    ...city,
-    new: check,
-    id
-  })
-}
-
 export async function getAreas() {
   return get(ref(database, 'areas'))
     .then(snapshot => {
