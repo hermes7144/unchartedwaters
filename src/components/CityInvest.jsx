@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { getAreas, getCitys, getGoods } from '../api/firebase';
@@ -11,7 +11,7 @@ export default function CityInvest({ target, current }) {
   const [selectedCitys, setSelectedCitys] = useState();
   const [filteredcitys, setFilteredcitys] = useState(citys);
 
-  const { isLoading, data: city } = useQuery(['city', selectedCitys], () => getGoods(selectedCitys), { staleTime: Infinity });
+  const { data: city } = useQuery(['city', selectedCitys], () => getGoods(selectedCitys), { staleTime: Infinity });
 
   const handleAreas = (e) => {
     setSelectedAreas(e.target.value);
