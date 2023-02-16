@@ -21,6 +21,29 @@ export default function CityInvest({ target, current }) {
 
   const handleCitys = (e) => setSelectedCitys(e.target.value);
 
+  function setPrice(city) {
+    switch (setClass(city)) {
+      case 1:
+        return parseFloat(Math.round((city.goods_price * 1.5).toFixed(1)));
+      case 2:
+        return parseFloat(Math.round((city.goods_price * 1.3).toFixed(1)));
+      case 3:
+        return parseFloat(Math.round((city.goods_price * 1.2).toFixed(1)));
+      case 4:
+        return parseFloat(Math.round((city.goods_price * 1.1).toFixed(1)));
+      default:
+        return city.goods_price;
+    }
+  }
+
+  function setClass(city) {
+    if (city.goods_highest_point + city.goods_dev_point <= target) return 1;
+    else if (city.goods_highest_point * 0.8 + city.goods_dev_point <= target) return 2;
+    else if (city.goods_highest_point * 0.6 + city.goods_dev_point <= target) return 3;
+    else if (city.goods_highest_point * 0.4 + city.goods_dev_point <= target) return 4;
+    else return 5;
+  }
+
   return (
     <article className='w-full basis-1/2 flex flex-col'>
       <h2 className='text-2xl font-bold my-4 text-center'>select</h2>
@@ -47,6 +70,7 @@ export default function CityInvest({ target, current }) {
             <th className='border border-slate-300 p-4'>교역품</th>
             <th className='border border-slate-300 p-4'>출현 발전도</th>
             <th className='border border-slate-300 p-4'>가격</th>
+            <th className='border border-slate-300 p-4'>수량</th>
             <th className='border border-slate-300 p-4'>등급</th>
             <th className='border border-slate-300 p-4'>원산물</th>
           </tr>
@@ -55,11 +79,12 @@ export default function CityInvest({ target, current }) {
           {city && city.length > 0 ? (
             city.map((city, index) => (
               <tr key={index}>
-                <td class='border border-slate-300'>{city.goods_nm}</td>
+                <td className='border border-slate-300'>{city.goods_nm}</td>
                 <td className={city.goods_dev_point > current && city.goods_dev_point <= target ? 'text-red-500 border border-slate-300 text-center' : city.goods_dev_point > current && city.goods_dev_point > target ? 'text-gray-300 border border-slate-300 text-center' : 'border border-slate-300 text-center'}>{city.goods_dev_point}</td>
-                <td class='border border-slate-300 p-1 text-center'>{city.goods_price}</td>
-                <td class='border border-slate-300 p-1 text-center'>{city.goods_price}</td>
-                <td class='border border-slate-300 p-1 text-center'>{city.goods_add ? 'O' : 'X'}</td>
+                <td className='border border-slate-300 p-1 text-center'>{setPrice(city)}</td>
+                <td className='border border-slate-300 p-1 text-center'>{city.goods_qty}</td>
+                <td className='border border-slate-300 p-1 text-center'>{setClass(city)}</td>
+                <td className='border border-slate-300 p-1 text-center'>{city.goods_add ? 'O' : 'X'}</td>
               </tr>
             ))
           ) : (
