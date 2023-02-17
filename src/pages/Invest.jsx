@@ -62,7 +62,6 @@ export default function Invest() {
           <input value={(price && getCount(price * Rapael * nonMonopoly)) || ''} aria-label='rapaelNonMono' disabled />
         </form>
       </article>
-
       <CityInvest target={target} current={current} />
     </div>
   );

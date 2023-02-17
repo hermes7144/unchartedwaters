@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getAreas, getCitys, getGoods } from '../api/firebase';
 export default function CityInvest({ target, current }) {
-  console.log(target, current);
   const { data: areas } = useQuery(['areas'], getAreas);
   const { data: citys } = useQuery(['citys'], getCitys);
 

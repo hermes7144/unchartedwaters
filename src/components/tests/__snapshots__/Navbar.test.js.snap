@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchHeader renders correctly 1`] = `
+<header
+  className="flex justify-between border-b border-gray-300 p-2"
+>
+  <a
+    className="flex items-center text-4xl text-brand"
+    href="/"
+    onClick={[Function]}
+  >
+    <h1>
+      DH Calc.
+    </h1>
+  </a>
+  <nav
+    className="flex items-center gap-4 font-semibold"
+  >
+    <a
+      href="/invest"
+      onClick={[Function]}
+    >
+      Invest
+    </a>
+    <a
+      href="/general"
+      onClick={[Function]}
+    >
+      General
+    </a>
+    <a
+      href="/citys"
+      onClick={[Function]}
+    >
+      Citys
+    </a>
+    <a
+      href="/qna"
+      onClick={[Function]}
+    >
+      QnA
+    </a>
+  </nav>
+</header>
+`;
