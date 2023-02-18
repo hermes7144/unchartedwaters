@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import CityInvest from '../components/CityInvest';
+// import CityInvest from '../components/CityInvest';
 
 const numList = {
   0: 0,
@@ -62,7 +62,7 @@ export default function Invest() {
           <input value={(price && getCount(price * Rapael * nonMonopoly)) || ''} aria-label='rapaelNonMono' disabled />
         </form>
       </article>
-      <CityInvest target={target} current={current} />
+      {/* <CityInvest target={target} current={current} /> */}
     </div>
   );
 }
