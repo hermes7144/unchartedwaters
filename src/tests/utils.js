@@ -20,14 +20,13 @@ export function withAllContexts(children, user, login, logout) {
   )
 }
 
-export function withInvest(children, target, current, setCurrent, setTarget) {
+export function withInvest(children, target, current) {
   return (
-    <InvestContext.Provider value={{ target, current, setCurrent, setTarget }}>
+    <InvestContext.Provider value={{ target, current }}>
       {children}
     </InvestContext.Provider>
   )
 }
-
 
 export function withAllContextsInvest(children, user, login, logout) {
   const testClient = createTestQueryClient();
@@ -41,11 +40,6 @@ export function withAllContextsInvest(children, user, login, logout) {
     </ QueryClientProvider >
   )
 }
-
-
-
-
-
 
 function createTestQueryClient() {
   return new QueryClient({

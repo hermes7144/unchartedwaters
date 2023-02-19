@@ -6,7 +6,7 @@ export function InvestContextProvider({ children }) {
   const [target, setTarget] = useState();
   const [current, setCurrent] = useState();
 
-  return <InvestContext.Provider value={{ target, current, setCurrent, setTarget }}>{children}</InvestContext.Provider>;
+  return <InvestContext.Provider value={{ target, setTarget, current, setCurrent }}>{children}</InvestContext.Provider>;
 }
 
 export function useInvestContext() {
