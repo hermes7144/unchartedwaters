@@ -50,17 +50,17 @@ export default function InvestCity() {
         {(isLoadingAreas || isLoadingCitys) && <p>Loading...</p>}
         {areas && citys && (
           <>
-            <label className=' font-bold' htmlFor='areas'>
+            <label className='font-bold' htmlFor='areas'>
               해역
             </label>
             <select id='areas' className='p-2 m-4 flex-1 border-2 border-dashed border-brand outline-none' onChange={handleAreas} value={selectedArea}>
               <option value=''>전체</option>
               {areas && areas.map((area, index) => <option key={index}>{area.area_nm}</option>)}
             </select>
-            <label className=' font-bold' htmlFor='areas'>
+            <label className='font-bold' htmlFor='citys'>
               도시
             </label>
-            <select id='areas' className='p-2 m-4 flex-1 border-2 border-dashed border-brand outline-none' onChange={handleCitys} value={selectedCity}>
+            <select id='citys' className='p-2 m-4 flex-1 border-2 border-dashed border-brand outline-none' onChange={handleCitys} value={selectedCity}>
               <option value=''>전체</option>
               {filtered.map((city, index) => (
                 <option key={index}>{city.city_nm}</option>
@@ -82,7 +82,14 @@ export default function InvestCity() {
           </tr>
         </thead>
         <tbody>
-          {city && city.length > 0 ? (
+          {!city && (
+            <tr>
+              <td className='text-center' colSpan='5'>
+                도시를 선택해주세요.
+              </td>
+            </tr>
+          )}
+          {city &&
             city.map((city, index) => (
               <tr key={index}>
                 <td className='border border-slate-300'>{city.goods_nm}</td>
@@ -92,19 +99,13 @@ export default function InvestCity() {
                 <td className='border border-slate-300 p-1 text-center'>{setClass(city)}</td>
                 <td className='border border-slate-300 p-1 text-center'>{city.goods_add ? 'O' : 'X'}</td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td className='text-center' colSpan='5'>
-                도시를 선택해주세요.
-              </td>
-            </tr>
-          )}
+            ))}
         </tbody>
       </table>
     </article>
   );
 }
+
 function getFilteredCitys(citys, filter) {
   if (filter) {
     return citys.filter((city) => city.city_area === filter);
