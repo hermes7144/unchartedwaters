@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InvestCalculator renders correctly 1`] = `
+<article
+  className="w-full basis-1/2"
+>
+  <h2
+    className="text-2xl font-bold my-4 text-center"
+  >
+    Calculator
+  </h2>
+  <form
+    className="flex flex-col px-12"
+  >
+    <label
+      htmlFor="target"
+    >
+      목표값
+    </label>
+    <input
+      aria-label="target"
+      id="target"
+      maxLength="4"
+      name="target"
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+    <label
+      htmlFor="current"
+    >
+      현재값
+    </label>
+    <input
+      aria-label="current"
+      id="current"
+      maxLength="4"
+      name="current"
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+    <label>
+      필요금액(독점)
+    </label>
+    <input
+      aria-label="moneyMono"
+      disabled={true}
+      value=""
+    />
+    <label>
+      필요금액(비독점)
+    </label>
+    <input
+      aria-label="moneyNonMono"
+      disabled={true}
+      value=""
+    />
+    <label>
+      투자횟수(독점)
+    </label>
+    <input
+      aria-label="countMono"
+      disabled={true}
+      value=""
+    />
+    <label>
+      투자횟수(비독점)
+    </label>
+    <input
+      aria-label="countNonMono"
+      disabled={true}
+      value=""
+    />
+    <label>
+      라파엘 군사투자(독점)
+    </label>
+    <input
+      aria-label="rapaelMono"
+      disabled={true}
+      value=""
+    />
+    <label>
+      라파엘 군사투자(비독점)
+    </label>
+    <input
+      aria-label="rapaelNonMono"
+      disabled={true}
+      value=""
+    />
+  </form>
+</article>
+`;

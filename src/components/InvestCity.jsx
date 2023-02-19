@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-
 import { getAreas, getCitys, getGoods } from '../api/firebase';
-export default function CityInvest({ target, current }) {
+import { useInvestContext } from './context/InvestContext';
+
+export default function InvestCity() {
+  const { target, current } = useInvestContext();
   const { data: areas } = useQuery(['areas'], getAreas);
   const { data: citys } = useQuery(['citys'], getCitys);
-
   const [selectedAreas, setSelectedAreas] = useState();
   const [selectedCitys, setSelectedCitys] = useState();
   const [filteredcitys, setFilteredcitys] = useState(citys);
@@ -44,7 +45,7 @@ export default function CityInvest({ target, current }) {
   }
 
   return (
-    <article className='w-full basis-1/2 flex flex-col'>
+    <article className='flex flex-col basis-1/2'>
       <h2 className='text-2xl font-bold my-4 text-center'>select</h2>
       <form className='flex flex-col px-12'>
         <label className=' font-bold' htmlFor='areas'>
@@ -88,7 +89,7 @@ export default function CityInvest({ target, current }) {
             ))
           ) : (
             <tr>
-              <td className='text-center' colspan='5'>
+              <td className='text-center' colSpan='5'>
                 도시를 선택해주세요.
               </td>
             </tr>

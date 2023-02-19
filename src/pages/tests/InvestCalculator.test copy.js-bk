@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { Route } from 'react-router-dom';
-import Invest from '../Invest';
-import { withAllContexts, withRouter } from '../../tests/utils';
+import { withAllContextsInvest, withRouter } from '../../tests/utils';
+import InvestCalculator from '../../components/InvestCalculator';
 
 describe('Invest', () => {
   const fakelogin = jest.fn();
@@ -14,14 +14,13 @@ describe('Invest', () => {
     fakeUser.mockReset();
   })
   it('renders correctly', () => {
-    fakelogin.mockImplementation({ user: 'user' });
-    fakelogout.mockImplementation();
-    fakeUser.mockImplementation({ user: 'user' });
+    // 함수확인 필요
+    // fakelogin.mockImplementation({ user: 'user' });
+    // fakelogout.mockImplementation();
+    // fakeUser.mockImplementation({ user: 'user' });
     render(
-      withAllContexts(
-        withRouter(
-          <Route path='/' element={<Invest />} />
-        )
+      withAllContextsInvest(
+        withRouter(<Route path='/' element={<InvestCalculator />} />)
         , fakelogin, fakelogout, fakeUser
       )
     )

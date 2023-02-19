@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MemoryRouter, Routes } from 'react-router-dom';
 import { AuthContext } from '../components/context/AuthContext';
+import { InvestContext, InvestContextProvider } from '../components/context/InvestContext';
 
 export function withRouter(routes, initialEntry = '/') {
   return <MemoryRouter initialEntry={[initialEntry]}>
@@ -11,13 +12,40 @@ export function withRouter(routes, initialEntry = '/') {
 export function withAllContexts(children, user, login, logout) {
   const testClient = createTestQueryClient();
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
-      < QueryClientProvider client={testClient} >
+    < QueryClientProvider client={testClient} >
+      <AuthContext.Provider value={{ user, login, logout }}>
         {children}
-      </ QueryClientProvider >
-    </AuthContext.Provider >
+      </AuthContext.Provider >
+    </ QueryClientProvider >
   )
 }
+
+export function withInvest(children, target, current, setCurrent, setTarget) {
+  return (
+    <InvestContext.Provider value={{ target, current, setCurrent, setTarget }}>
+      {children}
+    </InvestContext.Provider>
+  )
+}
+
+
+export function withAllContextsInvest(children, user, login, logout) {
+  const testClient = createTestQueryClient();
+  return (
+    < QueryClientProvider client={testClient} >
+      <AuthContext.Provider value={{ user, login, logout }}>
+        <InvestContextProvider>
+          {children}
+        </InvestContextProvider>
+      </AuthContext.Provider >
+    </ QueryClientProvider >
+  )
+}
+
+
+
+
+
 
 function createTestQueryClient() {
   return new QueryClient({
@@ -25,9 +53,10 @@ function createTestQueryClient() {
       queries: { retry: false }
     },
     logger: {
-      log: console.log
+      log: console.log,
+      warn: console.warn,
+      error: () => { },
     },
-    warn: console.warn,
-    error: () => { },
+
   })
 }
