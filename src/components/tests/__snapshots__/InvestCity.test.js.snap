@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InvestCity renders correctly 1`] = `
+<DocumentFragment>
+  <article
+    class="flex flex-col basis-1/2"
+  >
+    <h2
+      class="text-2xl font-bold my-4 text-center"
+    >
+      select
+    </h2>
+    <form
+      class="flex flex-col px-12"
+    >
+      <label
+        class=" font-bold"
+        for="areas"
+      >
+        해역
+      </label>
+      <select
+        class="p-2 m-4 flex-1 border-2 border-dashed border-brand outline-none"
+        id="areas"
+      >
+        <option
+          value=""
+        >
+          전체
+        </option>
+        <option>
+          북해
+        </option>
+        <option>
+          지중해
+        </option>
+      </select>
+      <label
+        class=" font-bold"
+        for="areas"
+      >
+        도시
+      </label>
+      <select
+        class="p-2 m-4 flex-1 border-2 border-dashed border-brand outline-none"
+        id="areas"
+      >
+        <option
+          value=""
+        >
+          전체
+        </option>
+        <option>
+          런던
+        </option>
+        <option>
+          암스테르담
+        </option>
+        <option>
+          리스본
+        </option>
+      </select>
+    </form>
+    <table
+      class="border-collapse border border-slate-400 w-5/6 mx-auto"
+    >
+      <thead>
+        <tr>
+          <th
+            class="border border-slate-300 p-4"
+          >
+            교역품
+          </th>
+          <th
+            class="border border-slate-300 p-4"
+          >
+            출현 발전도
+          </th>
+          <th
+            class="border border-slate-300 p-4"
+          >
+            가격
+          </th>
+          <th
+            class="border border-slate-300 p-4"
+          >
+            수량
+          </th>
+          <th
+            class="border border-slate-300 p-4"
+          >
+            등급
+          </th>
+          <th
+            class="border border-slate-300 p-4"
+          >
+            원산물
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td
+            class="text-center"
+            colspan="5"
+          >
+            도시를 선택해주세요.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </article>
+</DocumentFragment>
+`;

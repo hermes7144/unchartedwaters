@@ -1,0 +1,1 @@
+export const fakeCitys = [{ "city_area": "북해", "city_culture": "영국", "city_new": false, "city_nm": "런던" }, { "city_area": "북해", "city_culture": "플랑드르", "city_new": false, "city_nm": "암스테르담" }, { "city_area": "지중해", "city_culture": "포르투갈", "city_new": false, "city_nm": "리스본" },]

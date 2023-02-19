@@ -1,0 +1,1 @@
+export const fakeAreas = [{ "area_nm": "북해" }, { "area_nm": "지중해" }]

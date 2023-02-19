@@ -1,25 +1,23 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getAreas, getCitys, getGoods } from '../api/firebase';
+import { useInfoContext } from './context/InfoContext';
 import { useInvestContext } from './context/InvestContext';
 
 export default function InvestCity() {
+  const { getAreas, getCitys, getGoods } = useInfoContext();
   const { target, current } = useInvestContext();
-  const { data: areas } = useQuery(['areas'], getAreas);
-  const { data: citys } = useQuery(['citys'], getCitys);
-  const [selectedAreas, setSelectedAreas] = useState();
-  const [selectedCitys, setSelectedCitys] = useState();
-  const [filteredcitys, setFilteredcitys] = useState(citys);
+  const { isLoading: isLoadingAreas, data: areas } = useQuery(['areas'], getAreas);
+  const { isLoading: isLoadingCitys, data: citys } = useQuery(['citys'], getCitys);
+  const [selectedArea, setSelectedArea] = useState();
+  const [selectedCity, setSelectedCity] = useState('');
 
-  const { data: city } = useQuery(['city', selectedCitys], () => getGoods(selectedCitys), { staleTime: Infinity });
-
+  const { data: city } = useQuery(['city', selectedCity], () => getGoods(selectedCity), { staleTime: Infinity, enabled: !!selectedCity });
   const handleAreas = (e) => {
-    setSelectedAreas(e.target.value);
-    setSelectedCitys('');
-    setFilteredcitys(!e.target.value ? citys : citys.filter((city) => city.city_area === e.target.value));
+    setSelectedArea(e.target.value);
+    setSelectedCity('');
   };
 
-  const handleCitys = (e) => setSelectedCitys(e.target.value);
+  const handleCitys = (e) => setSelectedCity(e.target.value);
 
   function setPrice(city) {
     switch (setClass(city)) {
@@ -44,24 +42,32 @@ export default function InvestCity() {
     else return 5;
   }
 
+  const filtered = getFilteredCitys(citys, selectedArea);
   return (
     <article className='flex flex-col basis-1/2'>
       <h2 className='text-2xl font-bold my-4 text-center'>select</h2>
       <form className='flex flex-col px-12'>
-        <label className=' font-bold' htmlFor='areas'>
-          해역
-        </label>
-        <select id='areas' className='p-2 m-4 flex-1 border-2 border-dashed border-brand outline-none' onChange={handleAreas} value={selectedAreas}>
-          <option value=''>전체</option>
-          {areas && areas.map((area, index) => <option key={index}>{area.area_nm}</option>)}
-        </select>
-        <label className=' font-bold' htmlFor='areas'>
-          도시
-        </label>
-        <select id='areas' className='p-2 m-4 flex-1 border-2 border-dashed border-brand outline-none' onChange={handleCitys} value={selectedCitys}>
-          <option value=''>전체</option>
-          {filteredcitys && filteredcitys.map((city, index) => <option key={index}>{city.city_nm}</option>)}
-        </select>
+        {(isLoadingAreas || isLoadingCitys) && <p>Loading...</p>}
+        {areas && citys && (
+          <>
+            <label className=' font-bold' htmlFor='areas'>
+              해역
+            </label>
+            <select id='areas' className='p-2 m-4 flex-1 border-2 border-dashed border-brand outline-none' onChange={handleAreas} value={selectedArea}>
+              <option value=''>전체</option>
+              {areas && areas.map((area, index) => <option key={index}>{area.area_nm}</option>)}
+            </select>
+            <label className=' font-bold' htmlFor='areas'>
+              도시
+            </label>
+            <select id='areas' className='p-2 m-4 flex-1 border-2 border-dashed border-brand outline-none' onChange={handleCitys} value={selectedCity}>
+              <option value=''>전체</option>
+              {filtered.map((city, index) => (
+                <option key={index}>{city.city_nm}</option>
+              ))}
+            </select>
+          </>
+        )}
       </form>
 
       <table className='border-collapse border border-slate-400 w-5/6 mx-auto'>
@@ -98,4 +104,11 @@ export default function InvestCity() {
       </table>
     </article>
   );
+}
+function getFilteredCitys(citys, filter) {
+  if (filter) {
+    return citys.filter((city) => city.city_area === filter);
+  } else {
+    return citys;
+  }
 }
