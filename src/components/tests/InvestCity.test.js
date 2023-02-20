@@ -53,28 +53,11 @@ describe('InvestCity', () => {
     renderInvestCity();
     await waitForElementToBeRemoved(screen.queryByText('Loading...'))
 
-
     const selectElement = screen.getByLabelText('도시');
     userEvent.selectOptions(selectElement, '리스본');
-    const selectedOption = screen.getByRole('option', { name: '리스본' });
-    expect(selectedOption.selected).toBeTruthy();
+    await waitForElementToBeRemoved(screen.queryByText('도시를 선택해주세요.'));
+    expect(screen.getByText('아몬드')).toBeInTheDocument();
   })
-
-  it('renders city goods snapshot', async () => {
-    getAreas.mockImplementation(() => fakeAreas)
-    getCitys.mockImplementation(() => fakeCitys)
-    getGoods.mockImplementation(() => fakeGoods)
-
-    const { asFragment } = renderInvestCity();
-    await waitForElementToBeRemoved(screen.queryByText('Loading...'))
-
-    const selectElement = screen.getByLabelText('도시');
-    userEvent.selectOptions(selectElement, '리스본');
-
-    expect(asFragment()).toMatchSnapshot();
-
-  })
-
 
   function renderInvestCity() {
     return render(

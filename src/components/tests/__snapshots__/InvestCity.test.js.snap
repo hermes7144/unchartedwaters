@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`InvestCity renders city goods snapshot 1`] = `
+exports[`InvestCity renders correctly 1`] = `
 <DocumentFragment>
   <article
     class="flex flex-col basis-1/2"
@@ -111,4 +111,4 @@ exports[`InvestCity renders city goods snapshot 1`] = `
     </table>
   </article>
 </DocumentFragment>
-`; 
+`;
